@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 19:09:46 by anvincen          #+#    #+#             */
-/*   Updated: 2023/01/25 10:47:49 by antoine          ###   ########.fr       */
+/*   Updated: 2023/01/31 16:22:00 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,11 @@ char	*set_plus_u(char *res);
 
 //	DEFINE FIELD
 void	read_precision(char *par, int *precision, int *field, int len);
-void	read_field(char **par, int *field, int len_n, char last_c);
+void	read_field(char *par, int *field, int len_n, char last_c);
 void	field_space(char *par, int *field, int n, int len_n);
 void	field_point(char *par, int *field, int n, int len_n);
+
+// DEFINE PRECISION
+void	ft_read_precision(char *par, int *precision, int len, char last_c);
 
 #endif

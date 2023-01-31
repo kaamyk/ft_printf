@@ -1,54 +1,56 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   define_field.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 11:03:43 by anvincen          #+#    #+#             */
-/*   Updated: 2023/01/31 15:55:15 by antoine          ###   ########.fr       */
+/*   Updated: 2023/01/31 16:21:21 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-void	print_non_par(const char *s, int *i, int *ctr)
+int	ft_read_digit_field(char *par)
 {
-	int	len;
+	int	n;
+	int	i;
 
-	len = 0;
-	while (s[*i] && s[*i] != '%' && ++(*i))
-		++len;
-	printf("len == %d\n", len);
-	*ctr += len;
-	printf("%d\n", len);
-	write(1, s, len);
-	write(1, "\n", 1);
-}
-
-int	ft_printf(const char *s, ...)
-{
-	int		ctr;
-	va_list	arg_ptr;
-	int		i;
-
-	ctr = 0;
+	n = 0;
 	i = 0;
-	va_start(arg_ptr, s);
-	while (s[i])
+	while (par[i])
 	{
-		printf("printf i == %d\n", i);
-		if (s[i] != '%')
-			print_non_par(s + i, &i, &ctr);
-		else
-			ft_printpar(s + i, &i, arg_ptr, &ctr);
+		if (par[i] == '0')
+			++i;
+		if (par[i] == '.')
+		{
+			++i;
+			while (ft_isdigit(par[i]))
+				++i;
+		}
+		if (ft_isdigit(par[i]))
+		{
+			n = ft_atoi(par + i);
+			while (ft_isdigit(par[i]))
+				par[i++] = '1';
+		}
 	}
-	va_end(arg_ptr);
-	return (ctr);
+	return (n);
 }
 
-int	main(void)
+void	read_field(char *par, int *field, int len, char last_c)
 {
-	printf("ft = %d\n", ft_printf("Bonjour %d", 10));
-	return (0);
+	*field = ft_read_digit_field(par);
+	if (*field < len)
+		*field = len;
+	if (ft_strchr(par, '#'))
+	{
+		if (*field <= len + 2)
+			if (ft_strchr("xX", last_c))
+				*field += 2;
+		if (*field <= len + 1)
+			if (last_c == 'o')
+				*field += 1;
+	}
 }
